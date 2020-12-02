@@ -14,6 +14,7 @@ import android.net.NetworkInfo;
 import android.net.NetworkCapabilities;
 import android.net.ConnectivityManager;
 import android.util.Base64;
+import android.webkit.CookieManager;
 
 import com.RNFetchBlob.Response.RNFetchBlobDefaultResp;
 import com.RNFetchBlob.Response.RNFetchBlobFileResp;
@@ -191,6 +192,16 @@ public class RNFetchBlobReq extends BroadcastReceiver implements Runnable {
                 while (it.hasNextKey()) {
                     String key = it.nextKey();
                     req.addRequestHeader(key, headers.getString(key));
+                }
+                // Attempt to add cookie, if it exists
+                URL urlObj = null;
+                try {
+                    urlObj = new URL(url);
+                    String baseUrl = urlObj.getProtocol() + "://" + urlObj.getHost();
+                    String cookie = CookieManager.getInstance().getCookie(baseUrl);
+                    req.addRequestHeader("Cookie", cookie);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
                 }
                 Context appCtx = RNFetchBlob.RCTContext.getApplicationContext();
                 DownloadManager dm = (DownloadManager) appCtx.getSystemService(Context.DOWNLOAD_SERVICE);
