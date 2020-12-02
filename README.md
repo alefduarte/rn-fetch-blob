@@ -3,7 +3,10 @@
 
 A project committed to making file access and data transfer easier and more efficient for React Native developers.
 
-# ⚠️ Unmaintained ⚠️ 
+
+## Forked from [joltup](https://github.com/joltup/rn-fetch-blob)
+
+---
 
 # Version Compatibility Warning
 
